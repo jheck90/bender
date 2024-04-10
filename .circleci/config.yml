@@ -34,8 +34,11 @@ jobs:
       - discord/notify:
           color: '4383476'
           mentions: jheck90
-          message: This is a custom message notification from the build step
+          message: |
+            This is a custom message notification from the build step.
+            The build has been completed successfully.
           webhook: webhook
+
   build_and_push:
     docker:
       - image: cimg/base:2022.09
@@ -78,12 +81,15 @@ workflows:
       - discord/approval-notification:
           message: Pending approval
           webhook: webhook
+
   merge_and_push:
     jobs:
       - discord/notify:
           color: '4383476'
           mentions: jheck90
-          message: PR merged - Updating Docker Image
+          message: |
+            PR merged - Updating Docker Image.
+            Triggering pipeline on master.
           webhook: webhook
           filters:
             branches:
