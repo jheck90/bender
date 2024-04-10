@@ -20,7 +20,7 @@ jobs:
       - discord/notify:
           webhook: $DISCORD_WEBHOOK
           message: Testing from the pipeline
-          color: 4383476
+          color: "4383476"
           mentions: jheck90
           author_name: casill
           author_link: github.com/jheck90/bender
