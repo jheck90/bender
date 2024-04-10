@@ -22,7 +22,7 @@ jobs:
           mentions: jheck90
           message: |
             The build has been completed successfully.
-          webhook: webhook
+          webhook: $DISCORD_WEBHOOK
 
   build_and_push:
     docker:
