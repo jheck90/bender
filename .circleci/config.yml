@@ -29,8 +29,6 @@ jobs:
           title_link: https://target.github.io/flottbot-docs/basics/discord/
           footer: bippin footer
           ts: right now
-          include_project_field: true
-          include_job_number_field: true
 
   build_and_push:
     docker:
