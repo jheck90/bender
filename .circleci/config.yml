@@ -1,4 +1,8 @@
 version: 2.1
+
+orbs:
+  discord: teka23/discord@1.0.0
+
 jobs:
   build:
     docker:
@@ -24,9 +28,68 @@ jobs:
           command: |
             echo "Hello from the test step"
       - run:
-          name: Build and Push application Docker image
+          name: Build Docker image
+          command: |
+            docker build .
+      - discord/notify:
+          color: '4383476'
+          mentions: jheck90
+          message: This is a custom message notification from the build step
+          webhook: webhook
+  build_and_push:
+    docker:
+      - image: cimg/base:2022.09
+        auth:
+          username: $DOCKERHUB_USERNAME
+          password: $DOCKERHUB_PASSWORD
+    steps:
+      - checkout
+      - setup_remote_docker
+      - restore_cache:
+          keys:
+            - v1-{{ .Branch }}
+          paths:
+            - /caches/app.tar
+      - run:
+          name: Load Docker image layer cache
+          command: |
+            set +o pipefail
+            docker load -i /caches/app.tar | true
+      - run:
+          name: Run tests
           command: |
             TAG=0.1.$CIRCLE_BUILD_NUM
             docker build -t $DOCKERHUB_USERNAME/bender:$TAG -t $DOCKERHUB_USERNAME/bender:latest .
+      - run:
+          name: Build and Push application Docker image
+          command: |
             echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
             docker push $DOCKERHUB_USERNAME/bender --all-tags
+
+workflows:
+  version: 2
+  build_only:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - master
+      - discord/approval-notification:
+          message: Pending approval
+          webhook: webhook
+  merge_and_push:
+    jobs:
+      - discord/notify:
+          color: '4383476'
+          mentions: jheck90
+          message: PR merged - Updating Docker Image
+          webhook: webhook
+          filters:
+            branches:
+              only:
+                - master
+      - run:
+          name: Trigger pipeline on master
+          command: |
+            curl -X POST -d '{"branch": "master"}' https://circleci.com/api/v2/project/<YOUR_ORG>/<YOUR_PROJECT>/pipeline?circle-token=<YOUR_CIRCLECI_API_TOKEN>
