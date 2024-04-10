@@ -78,7 +78,7 @@ workflows:
             branches:
               only:
                 - master
-      - discord/approval-notification:
+      - discord/notify:
           message: Pending approval
           webhook: webhook
 
@@ -98,4 +98,4 @@ workflows:
       - run:
           name: Trigger pipeline on master
           command: |
-            curl -X POST -d '{"branch": "master"}' https://circleci.com/api/v2/project/<YOUR_ORG>/<YOUR_PROJECT>/pipeline?circle-token=<YOUR_CIRCLECI_API_TOKEN>
+            curl -X POST -d '{"branch": "master"}' https://circleci.com/api/v2/project/jheck90/bender/pipeline?circle-token=$API_TOKEN
