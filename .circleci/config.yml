@@ -31,7 +31,7 @@ jobs:
           mentions: jheck90
           message: |
             The build has been completed successfully.
-          webhook: https://discord.com/api/webhooks/1227627813230612581/h23CZ3Wjxc1I8MC5Swv3n7tlFKIg5AayTk3Y9ELNVCMXDK-cDvh-IoZEiiTxCHyMX4KI
+          webhook: webhook
 
   build_and_push:
     docker:
@@ -64,7 +64,7 @@ jobs:
             docker push $DOCKERHUB_USERNAME/bender --all-tags
 
 orbs:
-  discord: teka23/discord@0.0.1
+  discord: jheck90/discord@dev:alpha
 version: 2.1
 workflows:
   build_and_test:
