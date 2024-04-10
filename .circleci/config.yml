@@ -17,18 +17,13 @@ jobs:
           name: Build Docker image
           command: |
             docker build .
-      - discord/notify:
-          webhook: $DISCORD_WEBHOOK
-          message: Testing from the pipeline
-          color: "4383476"
-          mentions: jheck90
-          author_name: casill
-          author_link: github.com/jheck90/bender
-          # author_icon: 
-          title: Title Bippin
-          title_link: https://target.github.io/flottbot-docs/basics/discord/
-          footer: bippin footer
-          ts: right now
+      - discord/status:
+          fail_only: false
+          failure_message: "**${CIRCLE_USERNAME}**'s build: **${CIRCLE_JOB}** failed."
+          webhook: "${DISCORD_WEBHOOK}"
+          success_message: "**${CIRCLE_USERNAME}**'s docker image built."
+      - discord/approval:
+          webhook: "${DISCORD_WEBHOOK}"
 
   build_and_push:
     docker:
@@ -51,7 +46,7 @@ jobs:
             docker push $DOCKERHUB_USERNAME/bender --all-tags
 
 orbs:
-  discord: jheck90/discord@dev:alpha
+  discord: antonioned/discord@0.1.0
 version: 2.1
 workflows:
   build_and_test:
