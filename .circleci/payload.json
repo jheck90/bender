@@ -1,0 +1,19 @@
+{
+  "Job": {
+    "ID": "bender",
+    "TaskGroups": [
+      {
+        "Name": "bender",
+        "Tasks": [
+          {
+            "Name": "bender",
+            "Driver": "docker"
+          }
+        ]
+      }
+    ]
+  },
+  "PolicyOverride": false,
+  "namespace": "default"
+}
+

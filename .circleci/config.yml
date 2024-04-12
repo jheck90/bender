@@ -28,7 +28,8 @@ jobs:
           password: $DOCKERHUB_PASSWORD
     steps:
       - checkout
-      - setup_remote_docker
+      - setup_remote_docker:
+          docker_layer_caching: true
       - run:
           name: Run Build
           command: |
@@ -39,6 +40,7 @@ jobs:
           command: |
             echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
             docker push $DOCKERHUB_USERNAME/bender --all-tags
+            nomad run bender.nomad.hcl -address=https://nomad.the-casill.net
       - discord/status:
           fail_only: false
           failure_message: "**${CIRCLE_USERNAME}**'s build: **${CIRCLE_JOB}** failed."
