@@ -1,10 +1,8 @@
 jobs:
   build:
-    docker:
-      - image: cimg/base:2022.09
-        auth:
-          username: $DOCKERHUB_USERNAME
-          password: $DOCKERHUB_PASSWORD
+    machine: # executor type
+          image: ubuntu-2204:current # recommended linux image - includes Ubuntu 20.04, docker 19.03.13, docker-compose 1.27.4
+    resource_class: jheck90/dance-judging
     steps:
       - checkout
       - setup_remote_docker:
@@ -21,12 +19,10 @@ jobs:
           webhook: "${DISCORD_WEBHOOK}"
 
   build_and_push:
-    docker:
-      - image: cimg/base:2022.09
-        auth:
-          username: $DOCKERHUB_USERNAME
-          password: $DOCKERHUB_PASSWORD
-    steps:
+    machine: # executor type
+          image: ubuntu-2204:current # recommended linux image - includes Ubuntu 20.04, docker 19.03.13, docker-compose 1.27.4
+    resource_class: jheck90/dance-judging
+    steps:  
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true
@@ -40,7 +36,6 @@ jobs:
           command: |
             echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
             docker push $DOCKERHUB_USERNAME/bender --all-tags
-            nomad run bender.nomad.hcl -address=https://nomad.the-casill.net
       - discord/status:
           fail_only: false
           failure_message: "**${CIRCLE_USERNAME}**'s build: **${CIRCLE_JOB}** failed."

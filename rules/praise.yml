@@ -3,22 +3,16 @@ name: praise
 active: true
 
 # trigger and args
-hear: /praise (?P<name>\S+)/
+hear: /(praise|toast) (?P<name>\S+)/
 
 # actions
 actions:
   - name: praise
-    type: GET
-    url: http://api.icndb.com/jokes/random
-    query_data:
-      limitTo: "[nerdy]"
-      firstName: ""
-      lastName: "${name}"
-    expose_json_fields:
-      joke: '.value.joke'
+    type: exec
+    cmd: config/scripts/praise.sh ${name}
 
 # response
-format_output: "${joke}"
+format_output: "${_exec_output}"
 direct_message_only: false
 
 # help
