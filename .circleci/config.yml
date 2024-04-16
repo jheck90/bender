@@ -56,7 +56,7 @@ jobs:
       - run:
           name: Push application Docker image
           command: |
-            echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
+            echo $DOCKERHUB_PASSWORD | sudo docker login -u $DOCKERHUB_USERNAME --password-stdin
             sudo docker push $DOCKERHUB_USERNAME/bender --all-tags
       - discord/status:
           fail_only: false
