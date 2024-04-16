@@ -3,7 +3,7 @@ jobs:
     machine: # executor type
       image: ubuntu-2204:current # recommended linux image - includes Ubuntu 20.04, docker 19.03.13, docker-compose 1.27.4
       docker_layer_caching: true
-    resource_class: jheck90/dance-judging
+    resource_class: jheck90/nomad-runner
     working_directory: ~/bender-ci
     steps:
       - checkout          
@@ -19,13 +19,14 @@ jobs:
             fi
             sudo systemctl start docker || true
       - run:
-          name: Run tests
-          command: |
-            echo "Hello from the test step"
-      - run:
           name: Build Docker image
           command: |
-            sudo docker build .
+            TAG=0.1.$CIRCLE_BUILD_NUM
+            sudo docker build -t $DOCKERHUB_USERNAME/bender:$TAG .
+      - run:
+          name: Run tests
+          command: |
+            sudo docker run --env DISCORD_TOKEN=$DISCORD_TOKEN --env DISCORD_SERVER_ID=$DISCORD_SERVER_ID $DOCKERHUB_USERNAME/bender:$TAG /config/scripts/announce.sh $DOCKERHUB_USERNAME/bender:$TAG
       - discord/approval:
           webhook: "${DISCORD_WEBHOOK}"
 
@@ -33,7 +34,7 @@ jobs:
     machine: # executor type
       image: ubuntu-2204:current # recommended linux image - includes Ubuntu 20.04, docker 19.03.13, docker-compose 1.27.4
       docker_layer_caching: true
-    resource_class: jheck90/dance-judging
+    resource_class: jheck90/nomad-runner
     working_directory: ~/bender-ci
     steps:
       - checkout

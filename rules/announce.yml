@@ -1,0 +1,20 @@
+# meta
+name: announce
+active: true
+
+# trigger and args
+hear: /(announce) (?P<version>\S+)/
+
+# actions
+actions:
+  - name: announce
+    type: exec
+    cmd: config/scripts/announce.sh ${version}
+
+# response
+format_output: "${_exec_output}"
+direct_message_only: false
+
+# help
+help_text: announce <version>
+include_in_help: false
