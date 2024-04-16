@@ -6,3 +6,4 @@
 cat <<EOF | shuf -n 1 $FILE | sed "s/VERSION/$1/g"
 VERSION, shields up, weapons online. Test complete and hello from CircleCI.
 EOF
+

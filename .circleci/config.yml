@@ -26,7 +26,10 @@ jobs:
       - run:
           name: Run tests
           command: |
-            sudo docker run jheck90/bender
+            TAG=0.1.$CIRCLE_BUILD_NUM
+            sudo docker run $DOCKERHUB_USERNAME/bender:$TAG --env DISCORD_TOKEN=$DISCORD_TOKEN --env DISCORD_SERVER_ID=$DISCORD_SERVER_ID /config/scripts/announce.sh
+            sleep 5s
+            sudo docker stop $DOCKERHUB_USERNAME/bender:$TAG
       - discord/approval:
           webhook: "${DISCORD_WEBHOOK}"
 
