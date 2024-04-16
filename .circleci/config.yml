@@ -26,7 +26,7 @@ jobs:
       - run:
           name: Run tests
           command: |
-            sudo docker run
+            sudo docker run jheck90/bender
       - discord/approval:
           webhook: "${DISCORD_WEBHOOK}"
 
