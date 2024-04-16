@@ -5,6 +5,12 @@ active: true
 # trigger and args
 hear: /(announce) (?P<version>\S+)/
 
+limit_to_rooms: # this is an array of rooms/channels where the rule can get triggered.
+  - dev-alerts
+
+output_to_rooms: # this is an array of rooms/channels you want messages to be sent into in Slack.
+  - dev-alerts
+
 # actions
 actions:
   - name: announce
