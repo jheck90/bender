@@ -2,11 +2,10 @@ jobs:
   build:
     machine: # executor type
           image: ubuntu-2204:current # recommended linux image - includes Ubuntu 20.04, docker 19.03.13, docker-compose 1.27.4
-    resource_class: jheck90/dance-judging
-    steps:
-      - checkout
-      - setup_remote_docker:
           docker_layer_caching: true
+    resource_class: jheck90/dance-judgingD
+    steps:
+      - checkout          
       - run:
           name: Run tests
           command: |
@@ -21,6 +20,7 @@ jobs:
   build_and_push:
     machine: # executor type
           image: ubuntu-2204:current # recommended linux image - includes Ubuntu 20.04, docker 19.03.13, docker-compose 1.27.4
+          docker_layer_caching: true
     resource_class: jheck90/dance-judging
     steps:  
       - checkout
