@@ -27,9 +27,9 @@ jobs:
           name: Run tests
           command: |
             TAG=0.1.$CIRCLE_BUILD_NUM
-            sudo docker run --env DISCORD_TOKEN=${DISCORD_TOKEN} --env DISCORD_SERVER_ID=${DISCORD_SERVER_ID} /config/scripts/announce.sh ${TAG} ${DOCKERHUB_USERNAME}/bender:${TAG}
+            sudo docker run --env DISCORD_TOKEN="${DISCORD_TOKEN}" --env DISCORD_SERVER_ID="${DISCORD_SERVER_ID}" /config/scripts/announce.sh "${TAG}" "${DOCKERHUB_USERNAME}"/bender:"${TAG}"
             sleep 5s
-            sudo docker stop ${DOCKERHUB_USERNAME}/bender:${TAG}
+            sudo docker stop "${DOCKERHUB_USERNAME}"/bender:"${TAG}"
       - discord/approval:
           webhook: "${DISCORD_WEBHOOK}"
 
