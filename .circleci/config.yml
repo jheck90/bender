@@ -26,7 +26,7 @@ jobs:
       - run:
           name: Run tests
           command: |
-            sudo docker run --env DISCORD_TOKEN="$DISCORD_TOKEN" --env DISCORD_SERVER_ID="$DISCORD_SERVER_ID" "$DOCKERHUB_USERNAME/bender:$TAG" "/config/scripts/announce.sh" "$DOCKERHUB_USERNAME/bender:$TAG"
+            sudo docker run $DOCKERHUB_USERNAME/bender:$TAG
       - discord/approval:
           webhook: "${DISCORD_WEBHOOK}"
 
