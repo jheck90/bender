@@ -28,7 +28,7 @@ jobs:
           command: |
             TAG=0.1.$CIRCLE_BUILD_NUM
 
-            sudo docker run /config/scripts/announce.sh "${TAG}" "${DOCKERHUB_USERNAME}"/bender:"${TAG}"
+            sudo docker run "${DOCKERHUB_USERNAME}"/bender:"${TAG}"
             
             sleep 5s
             # sudo docker stop "${DOCKERHUB_USERNAME}"/bender:"${TAG}"
