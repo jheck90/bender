@@ -3,8 +3,7 @@ jobs:
     machine: # executor type
           image: ubuntu-2204:current # recommended linux image - includes Ubuntu 20.04, docker 19.03.13, docker-compose 1.27.4
           docker_layer_caching: true
-    services:
-    - docker
+    docker: true
     resource_class: jheck90/dance-judging
     steps:
       - checkout          
@@ -23,8 +22,7 @@ jobs:
     machine: # executor type
           image: ubuntu-2204:current # recommended linux image - includes Ubuntu 20.04, docker 19.03.13, docker-compose 1.27.4
           docker_layer_caching: true
-    services:
-    - docker
+    docker: true
     resource_class: jheck90/dance-judging
     steps:  
       - checkout
