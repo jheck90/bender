@@ -6,12 +6,17 @@ jobs:
     resource_class: jheck90/dance-judging
     working_directory: ~/bender-project
     steps:
+      - checkout          
       - run:
           name: Install Docker
           command: |
-            curl -fsSL https://get.docker.com -o get-docker.sh
-            sh get-docker.sh
-      - checkout          
+            if ! command -v docker &> /dev/null
+            then
+                curl -fsSL https://get.docker.com -o get-docker.sh
+                sh get-docker.sh
+            else
+                echo "Docker is already installed."
+            fi
       - run:
           name: Run tests
           command: |
@@ -29,13 +34,18 @@ jobs:
       docker_layer_caching: true
     resource_class: jheck90/dance-judging
     working_directory: ~/bender-project
-    steps:  
+    steps:
+      - checkout
       - run:
           name: Install Docker
           command: |
-            curl -fsSL https://get.docker.com -o get-docker.sh
-            sh get-docker.sh
-      - checkout
+            if ! command -v docker &> /dev/null
+            then
+                curl -fsSL https://get.docker.com -o get-docker.sh
+                sh get-docker.sh
+            else
+                echo "Docker is already installed."
+            fi
       - run:
           name: Run Build
           command: |
