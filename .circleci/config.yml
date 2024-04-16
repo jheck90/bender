@@ -27,12 +27,13 @@ jobs:
           name: Run tests
           command: |
             TAG=0.1.$CIRCLE_BUILD_NUM
-            sudo docker run --env DISCORD_TOKEN="${DISCORD_TOKEN}" --env DISCORD_SERVER_ID="${DISCORD_SERVER_ID}" "${DOCKERHUB_USERNAME}"/bender:"${TAG}"
+            sudo docker run -d --env DISCORD_TOKEN="${DISCORD_TOKEN}" --env DISCORD_SERVER_ID="${DISCORD_SERVER_ID}" "${DOCKERHUB_USERNAME}"/bender:"${TAG}"
             sleep 5s
             sudo docker stop "${DOCKERHUB_USERNAME}"/bender:"${TAG}"
       - discord/approval:
           webhook: "${DISCORD_WEBHOOK}"
-          message: "jheck90/bender:0.1.$CIRCLE_BUILD_NUM successfully built and tested - waiting for your approval to push to Dockerhub"
+          message: "@bender announce ${TAG}"
+          # message: "jheck90/bender:0.1.$CIRCLE_BUILD_NUM successfully built and tested - waiting for your approval to push to Dockerhub"
           mentions:  "1072945027325636679"
 
   build_and_push:
