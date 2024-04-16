@@ -28,12 +28,11 @@ jobs:
           command: |
             TAG=0.1.$CIRCLE_BUILD_NUM
 
-            sudo docker run --env DISCORD_TOKEN="${DISCORD_TOKEN}" --env DISCORD_SERVER_ID="${DISCORD_SERVER_ID}" --entrypoint ["/home/bender/config/scripts/announce.sh","${TAG}"] "${DOCKERHUB_USERNAME}"/bender:"${TAG}"
-            
-            sleep 5s
-            sudo docker stop "${DOCKERHUB_USERNAME}"/bender:"${TAG}"
+            sudo docker run --env DISCORD_TOKEN="${DISCORD_TOKEN}" --env DISCORD_SERVER_ID="${DISCORD_SERVER_ID}" "${DOCKERHUB_USERNAME}"/bender:"${TAG}"
       - discord/approval:
           webhook: "${DISCORD_WEBHOOK}"
+          success_message: "Hello, jheck90/bender:0.1.$CIRCLE_BUILD_NUM"
+          mentions:  1072945027325636679
 
   build_and_push:
     machine: # executor type
