@@ -32,7 +32,7 @@ jobs:
       - discord/approval:
           webhook: "${DISCORD_WEBHOOK}"
           success_message: "Hello, jheck90/bender:0.1.$CIRCLE_BUILD_NUM"
-          mentions:  1072945027325636679
+          mentions:  "1072945027325636679"
 
   build_and_push:
     machine: # executor type
