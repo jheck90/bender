@@ -1,11 +1,17 @@
 jobs:
   build:
     machine: # executor type
-          image: ubuntu-2204:current # recommended linux image - includes Ubuntu 20.04, docker 19.03.13, docker-compose 1.27.4
-          docker_layer_caching: true
-    docker: true
+      image: ubuntu-2204:current # recommended linux image - includes Ubuntu 20.04, docker 19.03.13, docker-compose 1.27.4
+      docker_layer_caching: true
     resource_class: jheck90/dance-judging
     steps:
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Install Docker
+          command: |
+            curl -fsSL https://get.docker.com -o get-docker.sh
+            sh get-docker.sh
       - checkout          
       - run:
           name: Run tests
@@ -20,14 +26,18 @@ jobs:
 
   build_and_push:
     machine: # executor type
-          image: ubuntu-2204:current # recommended linux image - includes Ubuntu 20.04, docker 19.03.13, docker-compose 1.27.4
-          docker_layer_caching: true
-    docker: true
+      image: ubuntu-2204:current # recommended linux image - includes Ubuntu 20.04, docker 19.03.13, docker-compose 1.27.4
+      docker_layer_caching: true
     resource_class: jheck90/dance-judging
     steps:  
-      - checkout
       - setup_remote_docker:
           docker_layer_caching: true
+      - run:
+          name: Install Docker
+          command: |
+            curl -fsSL https://get.docker.com -o get-docker.sh
+            sh get-docker.sh
+      - checkout
       - run:
           name: Run Build
           command: |
